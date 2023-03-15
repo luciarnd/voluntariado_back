@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/voluntariados', [\App\Http\Controllers\VoluntariadosController::class, 'index']);
+Route::get('/voluntariado/{voluntariado}', [\App\Http\Controllers\VoluntariadosController::class, 'show']);
+Route::post('/voluntariado', [\App\Http\Controllers\VoluntariadosController::class, 'store']);
+Route::put('/voluntariado/{voluntariado}', [\App\Http\Controllers\VoluntariadosController::class, 'update']);
+Route::delete('/voluntariado/{voluntariado}', [\App\Http\Controllers\VoluntariadosController::class, 'delete']);
+Route::get('/subscribirse/{voluntariado}', [\App\Http\Controllers\VoluntariadosController::class, 'subscribirse']);
+Route::get('/voluntariado/subscritos/{voluntariado}', [\App\Http\Controllers\VoluntariadosController::class, 'usuariosVoluntariado']);
