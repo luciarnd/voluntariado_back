@@ -19,6 +19,16 @@ class User extends Authenticatable
     ];
 
     public function voluntariados() {
-        return $this->belongsToMany(Voluntariado::class, 'user_voluntariado');
+        return $this->belongsToMany(Voluntariado::class, 'user_voluntariado')->withTimestamps();
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

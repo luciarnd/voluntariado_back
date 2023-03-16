@@ -20,7 +20,7 @@ class Voluntariado extends Model
     }
 
     public function users() {
-        return $this->belongsToMany(User::class, 'user_voluntariado');
+        return $this->belongsToMany(User::class, 'user_voluntariado')->withTimestamps();
     }
 
 }
