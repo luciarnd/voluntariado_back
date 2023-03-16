@@ -19,10 +19,12 @@ return new class extends Migration
             $table->primary(['voluntariado_id', 'user_id']);
             $table->foreign('voluntariado_id')
                 ->references('id')
-                ->on('voluntariados');
+                ->on('voluntariados')
+                ->onDelete('cascade');
             $table->foreign('user_id')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
