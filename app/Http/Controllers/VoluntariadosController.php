@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Date;
 
 class VoluntariadosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show', 'subscribirse']]);
+    }
+
     public function index(Request $request) {
         return Voluntariado::all();
     }

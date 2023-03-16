@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,9 +28,10 @@ Route::post('/empresa', [\App\Http\Controllers\EmpresaController::class, 'store'
 Route::put('/empresa/{empresa}', [\App\Http\Controllers\EmpresaController::class, 'update']);
 Route::delete('/empresa/{empresa}', [\App\Http\Controllers\EmpresaController::class, 'delete']);
 
-Route::controller(AuthController::class)->group(function () {
-    Route::post('login', 'login');
-    Route::post('register', 'register');
-    Route::post('logout', 'logout');
-    Route::post('refresh', 'refresh');
-});
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/refresh', [AuthController::class, 'refresh']);
+Route::get('/me', [AuthController::class, 'me']);
+
+Route::post('/user', [\App\Http\Controllers\UserController::class, 'store']);
