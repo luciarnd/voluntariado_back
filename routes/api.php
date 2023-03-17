@@ -35,3 +35,4 @@ Route::post('/refresh', [AuthController::class, 'refresh']);
 Route::get('/me', [AuthController::class, 'me']);
 
 Route::post('/user', [\App\Http\Controllers\UserController::class, 'store']);
+Route::get('/user', [\App\Http\Controllers\UserController::class, 'show']);
