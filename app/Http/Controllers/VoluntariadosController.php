@@ -15,7 +15,7 @@ class VoluntariadosController extends Controller
     }
 
     public function index(Request $request) {
-        return Voluntariado::all();
+        return Voluntariado::with('empresa')->get();
     }
 
     public function store(Request $request) {
@@ -45,7 +45,7 @@ class VoluntariadosController extends Controller
 
     public function subscribirse(Request $request, $id) {
         $voluntariado = Voluntariado::findOrFail($id);
-        $user_id = [1];
+        $user_id = [$request->user];
         $voluntariado->users()->attach($user_id);
         return $voluntariado->users;
     }
