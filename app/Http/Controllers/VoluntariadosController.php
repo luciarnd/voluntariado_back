@@ -26,7 +26,7 @@ class VoluntariadosController extends Controller
 
         $input = $request->all();
 
-        $empresa = Empresa::findOrFail($input['empresa']);
+        $empresa = Empresa::findOrFail(intval($input['empresa']));
         $voluntariado = new Voluntariado($input);
         $voluntariado->empresa()->associate($empresa);
         $voluntariado->save();
@@ -39,6 +39,10 @@ class VoluntariadosController extends Controller
 
     public function update(Request $request, $id) {
         $voluntariado = Voluntariado::findOrFail($id);
+        $input = $request->all();
+        if($input['empresa']) {
+            intval($input['empresa']);
+        }
         $voluntariado->update($request->all());
         return $voluntariado;
     }
