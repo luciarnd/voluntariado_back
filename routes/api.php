@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/voluntariados', [\App\Http\Controllers\VoluntariadosController::class, 'index']);
 Route::get('/voluntariado/{voluntariado}', [\App\Http\Controllers\VoluntariadosController::class, 'show']);
 Route::post('/voluntariado', [\App\Http\Controllers\VoluntariadosController::class, 'store']);
-Route::put('/voluntariado/{voluntariado}', [\App\Http\Controllers\VoluntariadosController::class, 'update']);
+Route::post('/voluntariado/{voluntariado}', [\App\Http\Controllers\VoluntariadosController::class, 'update']);
 Route::delete('/voluntariado/{voluntariado}', [\App\Http\Controllers\VoluntariadosController::class, 'delete']);
 Route::post('/subscribirse/{voluntariado}', [\App\Http\Controllers\VoluntariadosController::class, 'subscribirse']);
 Route::get('/voluntariado/subscritos/{voluntariado}', [\App\Http\Controllers\VoluntariadosController::class, 'usuariosVoluntariado']);
@@ -35,3 +35,4 @@ Route::post('/refresh', [AuthController::class, 'refresh']);
 Route::get('/me', [AuthController::class, 'me']);
 
 Route::post('/user', [\App\Http\Controllers\UserController::class, 'store']);
+Route::get('/user', [\App\Http\Controllers\UserController::class, 'show']);

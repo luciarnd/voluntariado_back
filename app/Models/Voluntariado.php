@@ -12,7 +12,8 @@ class Voluntariado extends Model
     protected $fillable = [
         'descripcion',
         'ciudad',
-        'empresa_id'
+        'empresa_id',
+        'image'
     ];
 
     public function empresa() {

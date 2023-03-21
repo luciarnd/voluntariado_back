@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('descripcion');
             $table->string('ciudad');
+            $table->string('image');
             $table->bigInteger('empresa_id')->unsigned();
             $table->foreign('empresa_id')
                 ->references('id')

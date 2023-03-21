@@ -6,6 +6,7 @@ use App\Models\Empresa;
 use App\Models\Voluntariado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Storage;
 
 class VoluntariadosController extends Controller
 {
@@ -22,13 +23,22 @@ class VoluntariadosController extends Controller
         $this->validate($request, [
             'descripcion' => 'required',
             'ciudad' => 'required',
+            'image' => 'required'
         ]);
 
         $input = $request->all();
 
+        if($file = $request->file('image')) {
+            $name = $file->getClientOriginalName();
+            Storage::put($name, file_get_contents($file->getRealPath()));
+            $file->move('storage/', $name);
+            $input['image'] = $name;
+        }
+
         $empresa = Empresa::findOrFail($input['empresa']);
         $voluntariado = new Voluntariado($input);
         $voluntariado->empresa()->associate($empresa);
+        $voluntariado->image = $input['image'];
         $voluntariado->save();
         return $voluntariado;
     }
@@ -39,15 +49,37 @@ class VoluntariadosController extends Controller
 
     public function update(Request $request, $id) {
         $voluntariado = Voluntariado::findOrFail($id);
-        $voluntariado->update($request->all());
+        $input = $request->all();
+        $voluntariado->update($input);
+
+        if($file = $request->file('image')) {
+            $name = $file->getClientOriginalName();
+            Storage::put($name, file_get_contents($file->getRealPath()));
+            $file->move('storage/', $name);
+            $voluntariado->image = $name;
+            $voluntariado->save();
+        }
+
         return $voluntariado;
     }
 
     public function subscribirse(Request $request, $id) {
-        $voluntariado = Voluntariado::findOrFail($id);
-        $user_id = [$request->user];
-        $voluntariado->users()->attach($user_id);
-        return $voluntariado->users;
+        try {
+            $voluntariado = Voluntariado::findOrFail($id);
+            $user_id = [$request->user];
+            $suscripciones = $voluntariado->users;
+            if (sizeof($suscripciones) != 0) {
+                foreach ($suscripciones as $suscripcion) {
+                    if ($suscripcion->user_id == $user_id) {
+                        return response()->json(['error' => 'Ya has firmado esta peticion'], 403);
+                    }
+                }
+            }
+            $voluntariado->users()->attach(intval($user_id));
+            return response()->json(['message' => 'Peticion firmada con exito', 'voluntariado' => $voluntariado], 201);
+        } catch (\Throwable$th) {
+            return response()->json(['error' => 'La peticion no se ha podido firmar'], 500);
+        }
     }
 
     public function usuariosVoluntariado(Request $request, $id) {
